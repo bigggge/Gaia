@@ -1,0 +1,3 @@
+export const ADD_ELEMENT = 'ADD_ELEMENT';
+export const EDIT_ELEMENT = 'EDIT_ELEMENT';
+export const SET_CURRENT_ELEMENT = 'SET_CURRENT_ELEMENT';
