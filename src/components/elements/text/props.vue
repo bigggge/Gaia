@@ -3,6 +3,7 @@
     <el-form size="mini">
       <el-form-item label="图层">
         <el-slider
+          :max="1000"
           style="margin-top: 20px"
           :value="style.zIndex" @input="updateStyle($event, 'zIndex')"
           show-input>

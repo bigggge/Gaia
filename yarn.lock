@@ -3452,6 +3452,13 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.1"
     readable-stream "^2.0.4"
 
+flyio@^0.6.7:
+  version "0.6.7"
+  resolved "https://registry.npmjs.org/flyio/-/flyio-0.6.7.tgz#8bbeff0efdd72ccd92daab1aa9130c3e37f0698f"
+  integrity sha512-uB2SVvEoq8+YcNbVmILiuSl3rq2zn6W7iAIuItm81l+YIyhXn3WXttV4shs2+91d8NONl6raBe9mPGl8MJMmoA==
+  dependencies:
+    request "^2.85.0"
+
 follow-redirects@^1.0.0:
   version "1.5.10"
   resolved "http://registry.fe.yeshj.com/follow-redirects/download/follow-redirects-1.5.10.tgz#7b7a9f9aea2fdff36786a94ff643ed07f4ff5e2a"
@@ -6632,7 +6639,7 @@ request-promise-native@^1.0.5:
     stealthy-require "^1.1.0"
     tough-cookie ">=2.3.3"
 
-request@^2.87.0, request@^2.88.0:
+request@^2.85.0, request@^2.87.0, request@^2.88.0:
   version "2.88.0"
   resolved "http://registry.fe.yeshj.com/request/download/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha1-nC/KT301tZLv5Xx/ClXoEFIST+8=

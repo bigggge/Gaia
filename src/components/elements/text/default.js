@@ -5,8 +5,8 @@ export default {
   type: 1,
   text: '这是文字这是文字',
   style: {
-    left: 100,
-    top: 100,
+    left: 10,
+    top: 10,
     width: 150,
     height: 30,
     lineHeight: '#000',
@@ -18,7 +18,7 @@ export default {
     fontFamily: 'SimHei',
     fontStyle: 'normal',
     fontWeight: 'normal',
-    zIndex: 'auto',
+    zIndex: 11,
     Font: {
       fontSize: '14px',
       fontFamily: '',

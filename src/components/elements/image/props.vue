@@ -2,6 +2,7 @@
   <el-form size="mini">
     <el-form-item label="图层">
       <el-slider
+        :max="1000"
         style="margin-top: 20px"
         :value="config.style.zIndex" @input="updateStyle($event, 'zIndex')"
         show-input>
@@ -24,6 +25,8 @@
 </template>
 
 <script>
+  import fly from 'flyio';
+
   export default {
     name: 'gaImageProps',
     props: {
@@ -42,6 +45,27 @@
     },
     methods: {
       onFileChange(e) {
+        this.$message.info({ message: '正在替换图片..' });
+        console.log(e.target.files);
+
+        let file = e.target.files[0];
+        let formData = new FormData();
+        formData.append('smfile', file);
+
+        fly.post('https://sm.ms/api/upload', formData)
+          .then(res => {
+            console.log(res.data.data.url);
+            this.$message.success({ message: '替换图片成功' });
+            this.$store.commit('EDIT_ELEMENT', {
+              id: this.id,
+              key: 'src',
+              value: res.data.data.url
+            });
+          })
+          .catch(e => {
+            console.error(e);
+          });
+
         console.log(e);
       },
       addImage() {

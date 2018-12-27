@@ -2,6 +2,8 @@ import * as types from '../types';
 import defaultData from '../../components/elements/default';
 import { merge, mergeDeep } from '../../utils/util';
 
+let prevElData = {};
+
 // initial state
 const state = {
   page: {
@@ -27,6 +29,10 @@ const actions = {
   addElement({ commit, getters }, name) {
     // commit('ADD_ELEMENT_TO_PAGE');
     const data = defaultData[name];
+    prevElData[name] = data;
+    data.style.top = prevElData[name].style.top + 50;
+    data.style.left = prevElData[name].style.left + 50;
+    prevElData[[name]] = data;
     console.log(data);
     commit('ADD_ELEMENT', { ...data, id: Math.random().toString(16).substr(2), parentId: 1 });
   }
