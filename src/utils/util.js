@@ -72,3 +72,7 @@ export function mergeDeep(target, ...sources) {
 
   return mergeDeep(target, ...sources);
 }
+
+export function isFunction (func) {
+  return (typeof func === 'function' || Object.prototype.toString.call(func) === '[object Function]')
+}

@@ -1,11 +1,9 @@
 import * as types from '../types';
 import defaultData from '../../components/elements/default';
-import { merge, mergeDeep } from '../../utils/util';
+import { mergeDeep, deepCopy } from '../../utils/util';
 
 let prevElData = {};
-
-// initial state
-const state = {
+let defaultState = {
   page: {
     id: 1,
     style: {},
@@ -13,6 +11,9 @@ const state = {
   },
   currentElement: {}
 };
+
+// initial state
+const state = deepCopy(defaultState);
 
 // getters
 const getters = {
@@ -27,13 +28,11 @@ const getters = {
 // actions
 const actions = {
   addElement({ commit, getters }, name) {
-    // commit('ADD_ELEMENT_TO_PAGE');
     const data = defaultData[name];
     prevElData[name] = data;
     data.style.top = prevElData[name].style.top + 50;
     data.style.left = prevElData[name].style.left + 50;
     prevElData[[name]] = data;
-    console.log(data);
     commit('ADD_ELEMENT', { ...data, id: Math.random().toString(16).substr(2), parentId: 1 });
   }
 };
@@ -45,19 +44,32 @@ const mutations = {
   //   // curPage && curPage.elements.push(el);
   //   state.page.elements.push(el);
   // },
+  [types.EMPTY_STATE](state) {
+    // this.replaceState(deepCopy(defaultState))
+    // state = deepCopy(defaultState);
+    state.page = {
+      id: 1,
+      style: {},
+      elements: [],
+    };
+    state.currentElement = {};
+  },
   [types.ADD_ELEMENT](state, el) {
     // let curPage = state.pages.find(item => item.id === state.curPageId);
     // curPage && curPage.elements.push(el);
-    console.log('ADD_ELEMENT', el);
-    state.page.elements.push(el);
+    state.page.elements.push(deepCopy(el));
   },
   [types.EDIT_ELEMENT](state, { id, key, value }) {
     let el = state.page.elements.find(el => el.id === id || el.id === state.currentElement.id);
-    console.log('EDIT_ELEMENT', JSON.stringify(state.page.elements), id);
     if (el) {
       mergeDeep(el, { [key]: value });
     }
-    console.log('EDIT_ELEMENT', JSON.stringify(state.page.elements), id);
+  },
+  [types.EDIT_ELEMENT_IGNORE](state, { id, key, value }) {
+    let el = state.page.elements.find(el => el.id === id || el.id === state.currentElement.id);
+    if (el) {
+      mergeDeep(el, { [key]: value });
+    }
   },
   [types.SET_CURRENT_ELEMENT](state, { id, name }) {
     state.currentElement = { id, name };

@@ -12,7 +12,9 @@
       :minh="10"
       @activated="setElement(el.id, el.name)"
       @dragging="handleDragging"
+      @dragstop="handleDragStop"
       @resizing="handleResizing"
+      @resizestop="handleResizeStop"
       :parent="true">
       <component
         :is="el.name"
@@ -26,7 +28,6 @@
 
 <script>
   import DraggableResizable from '../components/DraggableResizable.vue';
-  //  import El from '../components/El.vue';
   import Elements from '../components/elements/index';
   import { mapGetters, mapActions } from 'vuex';
   import throttle from 'lodash/throttle';
@@ -43,41 +44,55 @@
       ...Elements
     },
     created() {
-      this.$store.dispatch('addElement', 'gaText');
-      this.$store.dispatch('addElement', 'gaImage');
+
+      this.dragging = false;
+      this.resizing = false;
+//      this.$store.dispatch('addElement', 'gaText');
+//      this.$store.dispatch('addElement', 'gaImage');
     },
     methods: {
       setElement(id, name) {
         this.$store.commit('SET_CURRENT_ELEMENT', { id, name });
       },
       handleDragging(x, y) {
-        this.$store.commit('EDIT_ELEMENT', {
+        this.dragging = true;
+        this.$store.commit('EDIT_ELEMENT_IGNORE', {
           key: 'style',
-          value: {
-            left: x,
-            top: y
-          }
+          value: { left: x, top: y }
         });
       },
+      handleDragStop(x, y) {
+        console.log('handleDragStop');
+        if (this.dragging) {
+          this.dragging = false;
+          this.$store.commit('EDIT_ELEMENT', {
+            key: 'style',
+            value: { left: x, top: y }
+          });
+        }
+      },
       handleResizing(x, y, w, h) {
-        this.$store.commit('EDIT_ELEMENT', {
+        this.resizing = true;
+        this.$store.commit('EDIT_ELEMENT_IGNORE', {
           key: 'style',
-          value: {
-            left: x,
-            top: y,
-            width: w,
-            height: h
-          }
+          value: { left: x, top: y, width: w, height: h }
         });
+      },
+      handleResizeStop(x, y, w, h) {
+        console.log('handleResizeStop');
+        if (this.resizing) {
+          this.resizing = false;
+          this.$store.commit('EDIT_ELEMENT', {
+            key: 'style',
+            value: { left: x, top: y, width: w, height: h }
+          });
+        }
       },
       handleClick(name) {
         this.$emit('click');
       },
       handleDblClick(name) {
         alert(name);
-        if (name === 'gaText') {
-
-        }
         this.$emit('dblclick');
       }
     }

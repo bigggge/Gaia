@@ -1,12 +1,24 @@
 <template>
   <div class="props">
     <el-form size="mini">
+      <el-form-item label="宽度">
+        <el-input-number :value="config.style.width" :step="1" @input="updateStyle($event, 'width')" />
+      </el-form-item>
+      <el-form-item label="高度">
+        <el-input-number :value="config.style.height" :step="1" @input="updateStyle($event, 'height')" />
+      </el-form-item>
+      <el-form-item label="x轴">
+        <el-input-number :value="config.style.left" :step="1" @input="updateStyle($event, 'left')" />
+      </el-form-item>
+      <el-form-item label="y轴">
+        <el-input-number :value="config.style.top" :step="1" @input="updateStyle($event, 'top')" />
+      </el-form-item>
       <el-form-item label="图层">
         <el-slider
-          :max="1000"
           style="margin-top: 20px"
-          :value="style.zIndex" @input="updateStyle($event, 'zIndex')"
-          show-input>
+          :max="50"
+          :step="1"
+          v-model="zIndex">
         </el-slider>
       </el-form-item>
       <el-form-item label="文本">
@@ -68,54 +80,28 @@
 </template>
 
 <script>
+  import props from '../../../mixins/props';
+
   export default {
     name: 'gaTextProps',
+    mixins: [props],
     props: {
       id: {
         type: [String, Number],
         required: true
       }
     },
-    data() {
-      return {};
-    },
     computed: {
-      config() {
-        return this.$store.getters.configByElId(this.id);
-      },
-      style() {
-        return this.config.style;
+      zIndex: {
+        get: function() {
+          return this.style.zIndex;
+        },
+        set: function(value) {
+          this.updateStyle(value, 'zIndex');
+        }
       }
     },
-    methods: {
-      update(value, key) {
-        this.$store.commit('EDIT_ELEMENT', {
-          id: this.id,
-          key: key,
-          value: value
-        });
-      },
-      updateStyle(value, key) {
-        if (key.toLowerCase().indexOf('width') >= 0) {
-          value += 'px';
-        }
-        console.log(value, key);
-        this.$store.commit('EDIT_ELEMENT', {
-          id: this.id,
-          key: 'style',
-          value: {
-            [key]: value
-          }
-        });
-      },
-      updateFontStyle(value, key) {
-        this.$store.commit('EDIT_ELEMENT', {
-          id: this.id,
-          key: 'style',
-          value: { Font: { [key]: value } }
-        });
-      }
-    }
+    methods: {}
   };
 </script>
 

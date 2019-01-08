@@ -9,7 +9,7 @@ export default {
     top: 10,
     width: 150,
     height: 30,
-    lineHeight: '#000',
+    lineHeight: 'normal',
     backgroundColor: '#f1f1f1',
     borderWidth: '2px',
     borderStyle: 'solid',
